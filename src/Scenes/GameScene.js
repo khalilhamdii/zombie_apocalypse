@@ -1,17 +1,22 @@
 import "phaser";
-import logoImg from "../assets/logo.png";
 
 export default class GameScene extends Phaser.Scene {
   constructor() {
     super("Game");
   }
 
-  preload() {
-    // load images
-    this.load.image("logo", logoImg);
-  }
-
   create() {
-    this.add.image(400, 300, "logo");
+    // create the map
+    var map = this.make.tilemap({ key: "map" });
+
+    // first parameter is the name of the tilemap in tiled
+    var tiles = map.addTilesetImage("map_min", "tiles");
+
+    // creating the layers
+    var background = map.createStaticLayer("Map", tiles, 0, 0);
+    var obstacles = map.createStaticLayer("Obstacles", tiles, 0, 0);
+
+    // make all tiles in obstacles collidable
+    obstacles.setCollisionByExclusion([-1]);
   }
 }

@@ -9,8 +9,13 @@ export default class GameScene extends Phaser.Scene {
     this.physics.pause();
 
     player.setTint(0xff0000);
-
-    // gameOver = true;
+    this.time.addEvent({
+      delay: 500,
+      callback: () => {
+        this.scene.start("GameOver");
+      },
+      loop: false,
+    });
   }
 
   create() {
@@ -122,12 +127,12 @@ export default class GameScene extends Phaser.Scene {
     // user input
     this.cursors = this.input.keyboard.createCursorKeys();
 
-    for (var i = 0; i < 30; i++) {
+    for (var i = 0; i < 1; i++) {
       var x = Phaser.Math.RND.between(0, this.physics.world.bounds.width);
       var y = Phaser.Math.RND.between(0, this.physics.world.bounds.height);
 
       // parameters are x, y, width, height
-      let zombie = this.physics.add.sprite(x, y, "zombie", 1);
+      let zombie = this.physics.add.sprite(x + 50, y + 100, "zombie", 1);
       this.zombies.add(zombie);
     }
     // add collider

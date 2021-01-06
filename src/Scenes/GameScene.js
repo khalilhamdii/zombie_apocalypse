@@ -5,7 +5,16 @@ export default class GameScene extends Phaser.Scene {
     super("Game");
   }
 
+  onMeetEnemy(player, zone) {
+    // we move the zone to some other location
+    zone.x = Phaser.Math.RND.between(0, this.physics.world.bounds.width);
+    zone.y = Phaser.Math.RND.between(0, this.physics.world.bounds.height);
+
+    // start battle
+  }
+
   create() {
+    this.cameras.main.setZoom(2);
     // create the map
     var map = this.make.tilemap({ key: "map" });
 
@@ -83,6 +92,8 @@ export default class GameScene extends Phaser.Scene {
       var y = Phaser.Math.RND.between(0, this.physics.world.bounds.height);
       // parameters are x, y, width, height
       this.spawns.create(x, y, 20, 20);
+      let zombie = this.physics.add.sprite(x, y, "zombie", 1);
+      zombie.setScale(0.5);
     }
     // add collider
     this.physics.add.overlap(

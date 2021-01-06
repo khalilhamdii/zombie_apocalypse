@@ -107,12 +107,13 @@ export default class GameScene extends Phaser.Scene {
     this.zombies.getChildren().forEach(function (zombie) {
       zombie.setScale(0.5);
       zombie.body.collideWorldBounds = true;
-      var minSpeed = -5;
-      var maxSpeed = 5;
-      var vx = Math.random() * (maxSpeed - minSpeed + 1) - minSpeed;
-      var vy = Math.random() * (maxSpeed - minSpeed + 1) - minSpeed;
-      zombie.body.velocity.x = vx;
-      zombie.body.velocity.y = vy;
+      var dx = this.player.x - zombie.x;
+      var dy = this.player.y - zombie.y;
+
+      var angle = Math.atan2(dy, dx);
+
+      var speed = 10;
+      zombie.body.setVelocity(Math.cos(angle) * speed, Math.sin(angle) * speed);
     }, this);
 
     this.player.body.setVelocity(0);

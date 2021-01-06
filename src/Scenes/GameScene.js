@@ -5,12 +5,12 @@ export default class GameScene extends Phaser.Scene {
     super("Game");
   }
 
-  onMeetEnemy(player, zone) {
-    // we move the zone to some other location
-    zone.x = Phaser.Math.RND.between(0, this.physics.world.bounds.width);
-    zone.y = Phaser.Math.RND.between(0, this.physics.world.bounds.height);
+  onTouchEnemy(player, zombie) {
+    this.physics.pause();
 
-    // start battle
+    player.setTint(0xff0000);
+
+    // gameOver = true;
   }
 
   create() {
@@ -30,7 +30,9 @@ export default class GameScene extends Phaser.Scene {
 
     // our player sprite created through the phycis system
     this.player = this.physics.add.sprite(50, 100, "player", 6);
-
+    this.zombies = this.physics.add.group({
+      classType: Phaser.GameObjects.Zone,
+    });
     //  animation with key 'left', we don't need left and right as we will use one and flip the sprite
     this.anims.create({
       key: "left",
@@ -72,9 +74,9 @@ export default class GameScene extends Phaser.Scene {
     this.physics.world.bounds.height = map.heightInPixels;
     this.player.setCollideWorldBounds(true);
 
-    // don't walk on trees
+    // don't walk on obstacles
     this.physics.add.collider(this.player, obstacles);
-
+    this.physics.add.collider(this.zombies, obstacles);
     // limit camera to map
     this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
     this.cameras.main.startFollow(this.player);
@@ -83,30 +85,35 @@ export default class GameScene extends Phaser.Scene {
     // user input
     this.cursors = this.input.keyboard.createCursorKeys();
 
-    // where the enemies will be
-    this.spawns = this.physics.add.group({
-      classType: Phaser.GameObjects.Zone,
-    });
     for (var i = 0; i < 30; i++) {
       var x = Phaser.Math.RND.between(0, this.physics.world.bounds.width);
       var y = Phaser.Math.RND.between(0, this.physics.world.bounds.height);
+
       // parameters are x, y, width, height
-      this.spawns.create(x, y, 20, 20);
       let zombie = this.physics.add.sprite(x, y, "zombie", 1);
-      zombie.setScale(0.5);
+      this.zombies.add(zombie);
     }
     // add collider
-    this.physics.add.overlap(
+    this.physics.add.collider(
       this.player,
-      this.spawns,
-      this.onMeetEnemy,
+      this.zombies,
+      this.onTouchEnemy,
       false,
       this
     );
   }
 
   update(time, delta) {
-    //    this.controls.update(delta);
+    this.zombies.getChildren().forEach(function (zombie) {
+      zombie.setScale(0.5);
+      zombie.body.collideWorldBounds = true;
+      var minSpeed = -5;
+      var maxSpeed = 5;
+      var vx = Math.random() * (maxSpeed - minSpeed + 1) - minSpeed;
+      var vy = Math.random() * (maxSpeed - minSpeed + 1) - minSpeed;
+      zombie.body.velocity.x = vx;
+      zombie.body.velocity.y = vy;
+    }, this);
 
     this.player.body.setVelocity(0);
 

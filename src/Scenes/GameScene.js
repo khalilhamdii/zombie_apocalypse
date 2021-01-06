@@ -43,7 +43,7 @@ export default class GameScene extends Phaser.Scene {
       repeat: -1,
     });
 
-    // animation with key 'right'
+    // player animation keys
     this.anims.create({
       key: "right",
       frames: this.anims.generateFrameNumbers("player", {
@@ -64,6 +64,43 @@ export default class GameScene extends Phaser.Scene {
       key: "down",
       frames: this.anims.generateFrameNumbers("player", {
         frames: [0, 6, 0, 12],
+      }),
+      frameRate: 10,
+      repeat: -1,
+    });
+
+    // zombie animation keys
+    this.anims.create({
+      key: "zleft",
+      frames: this.anims.generateFrameNumbers("zombie", {
+        frames: [9, 10, 11],
+      }),
+      frameRate: 10,
+      repeat: -1,
+    });
+
+    this.anims.create({
+      key: "zright",
+      frames: this.anims.generateFrameNumbers("zombie", {
+        frames: [3, 4, 5],
+      }),
+      frameRate: 10,
+      repeat: -1,
+    });
+
+    this.anims.create({
+      key: "zup",
+      frames: this.anims.generateFrameNumbers("zombie", {
+        frames: [6, 7, 8],
+      }),
+      frameRate: 10,
+      repeat: -1,
+    });
+
+    this.anims.create({
+      key: "zdown",
+      frames: this.anims.generateFrameNumbers("zombie", {
+        frames: [0, 1, 2],
       }),
       frameRate: 10,
       repeat: -1,
@@ -109,11 +146,21 @@ export default class GameScene extends Phaser.Scene {
       zombie.body.collideWorldBounds = true;
       var dx = this.player.x - zombie.x;
       var dy = this.player.y - zombie.y;
-
-      var angle = Math.atan2(dy, dx);
-
       var speed = 10;
-      zombie.body.setVelocity(Math.cos(angle) * speed, Math.sin(angle) * speed);
+      var angle = Math.atan2(dy, dx);
+      var vx = Math.cos(angle) * speed;
+      var vy = Math.sin(angle) * speed;
+      zombie.body.setVelocity(vx, vy);
+
+      if (vy < 0 && dx < 100 && dx > -100) {
+        zombie.anims.play("zup", true);
+      } else if (vy > 0 && dx < 100 && dx > -100) {
+        zombie.anims.play("zdown", true);
+      } else if (vx > 0) {
+        zombie.anims.play("zright", true);
+      } else if (vx < 0) {
+        zombie.anims.play("zleft", true);
+      }
     }, this);
 
     this.player.body.setVelocity(0);

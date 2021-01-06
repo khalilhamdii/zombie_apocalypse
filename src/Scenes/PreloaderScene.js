@@ -31,8 +31,8 @@ export default class PreloaderScene extends Phaser.Scene {
 
     // zombie spritesheet
     this.load.spritesheet("zombie", "src/assets/Zombie_Spritesheet.png", {
-      frameWidth: 40,
-      frameHeight: 40,
+      frameWidth: 30,
+      frameHeight: 35,
     });
 
     // load bullet

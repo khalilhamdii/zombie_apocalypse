@@ -37,7 +37,7 @@ export default class PreloaderScene extends Phaser.Scene {
 
     // load bullet
 
-    this.load.image("bullet", "src/assets/shmup-bullet.png");
+    this.load.image("bullet", "src/assets/bullet.png");
 
     // add logo image
     this.add.image(400, 200, "logo");

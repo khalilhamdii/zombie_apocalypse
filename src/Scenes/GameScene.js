@@ -5,6 +5,34 @@ export default class GameScene extends Phaser.Scene {
     super("Game");
   }
 
+  fireBullet() {
+    this.gun = 1;
+    this.time.addEvent({
+      delay: 150,
+      callback: () => {
+        this.gun = 0;
+      },
+      callbackScope: this,
+      loop: false,
+    });
+
+    var bullet = this.physics.add.sprite(
+      this.player.x,
+      this.player.y,
+      "bullet"
+    );
+    // // bullet.body.collideWorldBounds = true;
+    // bullet.outOfBoundsKill = true;
+    bullet.setScale(0.3);
+    bullet.angle = this.player.body.angle;
+
+    var speed = 200;
+    var vx = Math.cos(this.player.body.angle) * speed;
+    var vy = Math.sin(this.player.body.angle) * speed;
+    bullet.body.setVelocity(vx, vy);
+    this.bullets.add(bullet);
+  }
+
   onTouchEnemy(player, zombie) {
     this.physics.pause();
 
@@ -33,11 +61,13 @@ export default class GameScene extends Phaser.Scene {
     // make all tiles in obstacles collidable
     obstacles.setCollisionByExclusion([-1]);
 
-    // our player sprite created through the phycis system
+    // create player sprite + zombies and bullets groupes
     this.player = this.physics.add.sprite(50, 100, "player", 6);
     this.zombies = this.physics.add.group({
       classType: Phaser.GameObjects.Zone,
     });
+    this.bullets = this.add.group();
+    this.gun = 0;
     //  animation with key 'left', we don't need left and right as we will use one and flip the sprite
     this.anims.create({
       key: "left",
@@ -126,6 +156,9 @@ export default class GameScene extends Phaser.Scene {
 
     // user input
     this.cursors = this.input.keyboard.createCursorKeys();
+    this.spaceBar = this.input.keyboard.addKey(
+      Phaser.Input.Keyboard.KeyCodes.SPACE
+    );
 
     for (var i = 0; i < 1; i++) {
       var x = Phaser.Math.RND.between(0, this.physics.world.bounds.width);
@@ -170,6 +203,10 @@ export default class GameScene extends Phaser.Scene {
 
     this.player.body.setVelocity(0);
 
+    // Shoot bullets
+    if (this.spaceBar.isDown && this.gun === 0) {
+      this.fireBullet();
+    }
     // Horizontal movement
     if (this.cursors.left.isDown) {
       this.player.body.setVelocityX(-80);

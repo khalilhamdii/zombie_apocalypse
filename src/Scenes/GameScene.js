@@ -21,10 +21,7 @@ export default class GameScene extends Phaser.Scene {
       this.player.y,
       "bullet"
     );
-    // // bullet.body.collideWorldBounds = true;
-    // bullet.outOfBoundsKill = true;
     bullet.setScale(0.3);
-    // bullet.angle = this.player.body.angle;
     var PointerAngle = Phaser.Math.Angle.Between(
       this.player.x,
       this.player.y,
@@ -37,6 +34,26 @@ export default class GameScene extends Phaser.Scene {
     var vy = Math.sin(PointerAngle) * speed;
     bullet.body.setVelocity(vx, vy);
     this.bullets.add(bullet);
+  }
+
+  killZombie(bullet, zombie) {
+    bullet.destroy(true, true);
+    zombie.setTint(0xff0000);
+    this.time.addEvent({
+      delay: 100,
+      callback: () => {
+        zombie.destroy(true, true);
+      },
+      loop: false,
+    });
+    this.score += 1;
+    this.zombieRemaining -= 1;
+    this.scoreText.setText("Zombie Killed : " + this.score);
+    this.zombieText.setText("Zombie remaining : " + this.zombieRemaining);
+    if (this.zombieRemaining == 0) {
+      this.spawnZombies();
+      this.waveText.setText("Wave : " + this.wave);
+    }
   }
 
   onTouchEnemy(player, zombie) {
@@ -52,8 +69,44 @@ export default class GameScene extends Phaser.Scene {
     });
   }
 
+  killBullet(bullet, obstacle) {
+    bullet.destroy(true, true);
+  }
+
+  spawnZombies() {
+    if (this.zombieRemaining == 0) {
+      this.wave += 1;
+      this.zombieNumber += 50;
+      this.zombieRemaining = this.zombieNumber;
+      this.speed += 5;
+      for (var i = 0; i < this.zombieNumber; i++) {
+        var tmp = true;
+        while (tmp) {
+          tmp = false;
+          var x = Phaser.Math.RND.between(0, this.physics.world.bounds.width);
+          var y = Phaser.Math.RND.between(0, this.physics.world.bounds.height);
+          var dx = this.player.x - x;
+          var dy = this.player.y - y;
+          if (dx > 100 || dy > 100 || dx < -100 || dy < -100) {
+            let zombie = this.physics.add.sprite(x, y, "zombie", 1);
+            this.zombies.add(zombie);
+            tmp = false;
+          } else {
+            tmp = true;
+          }
+        }
+      }
+    }
+  }
+
   create() {
+    this.score = 0;
+    this.wave = 0;
+    this.zombieNumber = 0;
+    this.zombieRemaining = 0;
+    this.speed = 5;
     this.cameras.main.setZoom(2);
+    this.gun = 0;
     // create the map
     var map = this.make.tilemap({ key: "map" });
 
@@ -73,7 +126,8 @@ export default class GameScene extends Phaser.Scene {
       classType: Phaser.GameObjects.Zone,
     });
     this.bullets = this.add.group();
-    this.gun = 0;
+    // spawn zombies
+    this.spawnZombies();
     //  animation with key 'left', we don't need left and right as we will use one and flip the sprite
     this.anims.create({
       key: "left",
@@ -155,6 +209,7 @@ export default class GameScene extends Phaser.Scene {
     // don't walk on obstacles
     this.physics.add.collider(this.player, obstacles);
     this.physics.add.collider(this.zombies, obstacles);
+
     // limit camera to map
     this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
     this.cameras.main.startFollow(this.player);
@@ -168,16 +223,14 @@ export default class GameScene extends Phaser.Scene {
       Phaser.Input.Keyboard.KeyCodes.D
     );
     this.leftBtn = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q);
-
-    for (var i = 0; i < 1; i++) {
-      var x = Phaser.Math.RND.between(0, this.physics.world.bounds.width);
-      var y = Phaser.Math.RND.between(0, this.physics.world.bounds.height);
-
-      // parameters are x, y, width, height
-      let zombie = this.physics.add.sprite(x + 50, y + 100, "zombie", 1);
-      this.zombies.add(zombie);
-    }
     // add collider
+    this.physics.add.overlap(
+      this.bullets,
+      this.zombies,
+      this.killZombie,
+      null,
+      this
+    );
     this.physics.add.collider(
       this.player,
       this.zombies,
@@ -185,23 +238,60 @@ export default class GameScene extends Phaser.Scene {
       false,
       this
     );
+
+    this.physics.add.collider(
+      this.bullets,
+      obstacles,
+      this.killBullet,
+      false,
+      this
+    );
+    // Score text
+    this.scoreText = this.add.text(16, 16, `Zombie killed : ${this.wave}`, {
+      fontSize: "24px",
+      fill: "#fff",
+    });
+    this.zombieText = this.add.text(
+      16,
+      32,
+      `Zombie remaining : ${this.zombieRemaining}`,
+      {
+        fontSize: "24px",
+        fill: "#fff",
+      }
+    );
+    this.waveText = this.add.text(16, 48, `Wave : ${this.wave}`, {
+      fontSize: "24px",
+      fill: "#fff",
+    });
+    this.scoreText.depth = 1000;
+    this.zombieText.depth = 1000;
+    this.waveText.depth = 1000;
   }
 
   update(time, delta) {
+    this.scoreText.x = 16 + this.cameras.main.worldView.left;
+    this.scoreText.y = 16 + this.cameras.main.worldView.top;
+    this.scoreText.setScale(0.5);
+    this.zombieText.x = 16 + this.cameras.main.worldView.left;
+    this.zombieText.y = 32 + this.cameras.main.worldView.top;
+    this.zombieText.setScale(0.5);
+    this.waveText.x = 16 + this.cameras.main.worldView.left;
+    this.waveText.y = 48 + this.cameras.main.worldView.top;
+    this.waveText.setScale(0.5);
     this.zombies.getChildren().forEach(function (zombie) {
       zombie.setScale(0.5);
       zombie.body.collideWorldBounds = true;
       var dx = this.player.x - zombie.x;
       var dy = this.player.y - zombie.y;
-      var speed = 10;
       var angle = Math.atan2(dy, dx);
-      var vx = Math.cos(angle) * speed;
-      var vy = Math.sin(angle) * speed;
+      var vx = Math.cos(angle) * this.speed;
+      var vy = Math.sin(angle) * this.speed;
       zombie.body.setVelocity(vx, vy);
 
-      if (vy < 0 && dx < 100 && dx > -100) {
+      if (vy < 0 && dx < 50 && dx > -50) {
         zombie.anims.play("zup", true);
-      } else if (vy > 0 && dx < 100 && dx > -100) {
+      } else if (vy > 0 && dx < 50 && dx > -50) {
         zombie.anims.play("zdown", true);
       } else if (vx > 0) {
         zombie.anims.play("zright", true);

@@ -24,11 +24,17 @@ export default class GameScene extends Phaser.Scene {
     // // bullet.body.collideWorldBounds = true;
     // bullet.outOfBoundsKill = true;
     bullet.setScale(0.3);
-    bullet.angle = this.player.body.angle;
+    // bullet.angle = this.player.body.angle;
+    var PointerAngle = Phaser.Math.Angle.Between(
+      this.player.x,
+      this.player.y,
+      this.input.activePointer.worldX,
+      this.input.activePointer.worldY
+    );
 
     var speed = 200;
-    var vx = Math.cos(this.player.body.angle) * speed;
-    var vy = Math.sin(this.player.body.angle) * speed;
+    var vx = Math.cos(PointerAngle) * speed;
+    var vy = Math.sin(PointerAngle) * speed;
     bullet.body.setVelocity(vx, vy);
     this.bullets.add(bullet);
   }
@@ -155,10 +161,13 @@ export default class GameScene extends Phaser.Scene {
     this.cameras.main.roundPixels = true; // avoid tile bleed
 
     // user input
-    this.cursors = this.input.keyboard.createCursorKeys();
-    this.spaceBar = this.input.keyboard.addKey(
-      Phaser.Input.Keyboard.KeyCodes.SPACE
+
+    this.upBtn = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Z);
+    this.downBtn = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
+    this.rightBtn = this.input.keyboard.addKey(
+      Phaser.Input.Keyboard.KeyCodes.D
     );
+    this.leftBtn = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q);
 
     for (var i = 0; i < 1; i++) {
       var x = Phaser.Math.RND.between(0, this.physics.world.bounds.width);
@@ -204,33 +213,33 @@ export default class GameScene extends Phaser.Scene {
     this.player.body.setVelocity(0);
 
     // Shoot bullets
-    if (this.spaceBar.isDown && this.gun === 0) {
+    if (this.input.activePointer.isDown && this.gun === 0) {
       this.fireBullet();
     }
     // Horizontal movement
-    if (this.cursors.left.isDown) {
+    if (this.leftBtn.isDown) {
       this.player.body.setVelocityX(-80);
-    } else if (this.cursors.right.isDown) {
+    } else if (this.rightBtn.isDown) {
       this.player.body.setVelocityX(80);
     }
 
     // Vertical movement
-    if (this.cursors.up.isDown) {
+    if (this.upBtn.isDown) {
       this.player.body.setVelocityY(-80);
-    } else if (this.cursors.down.isDown) {
+    } else if (this.downBtn.isDown) {
       this.player.body.setVelocityY(80);
     }
 
     // Update the animation last and give left/right animations precedence over up/down animations
-    if (this.cursors.left.isDown) {
+    if (this.leftBtn.isDown) {
       this.player.anims.play("left", true);
       this.player.flipX = true;
-    } else if (this.cursors.right.isDown) {
+    } else if (this.rightBtn.isDown) {
       this.player.anims.play("right", true);
       this.player.flipX = false;
-    } else if (this.cursors.up.isDown) {
+    } else if (this.upBtn.isDown) {
       this.player.anims.play("up", true);
-    } else if (this.cursors.down.isDown) {
+    } else if (this.downBtn.isDown) {
       this.player.anims.play("down", true);
     } else {
       this.player.anims.stop();

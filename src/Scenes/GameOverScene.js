@@ -21,7 +21,7 @@ export default class GameOverScene extends Phaser.Scene {
     this.gameButton = new Button(
       this,
       config.width / 2,
-      config.height / 2,
+      config.height / 2 + 100,
       "blueButton1",
       "blueButton2",
       "Try again!",

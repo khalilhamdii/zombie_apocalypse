@@ -7,6 +7,7 @@ export default class GameScene extends Phaser.Scene {
 
   fireBullet() {
     this.gun = 1;
+    this.fireGun.play();
     this.time.addEvent({
       delay: 150,
       callback: () => {
@@ -107,6 +108,7 @@ export default class GameScene extends Phaser.Scene {
     this.speed = 5;
     this.cameras.main.setZoom(2);
     this.gun = 0;
+    this.fireGun = this.sound.add("fireGun");
     // create the map
     var map = this.make.tilemap({ key: "map" });
 

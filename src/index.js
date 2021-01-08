@@ -1,6 +1,7 @@
 import "phaser";
 import config from "./Config/config";
 import GameScene from "./Scenes/GameScene";
+import PlayerInputScene from "./Scenes/playerInputScene";
 import BootScene from "./Scenes/BootScene";
 import PreloaderScene from "./Scenes/PreloaderScene";
 import TitleScene from "./Scenes/TitleScene";
@@ -14,7 +15,13 @@ class Game extends Phaser.Game {
   constructor() {
     super(config);
     const model = new Model();
-    this.globals = { model, bgMusic: null, fireGun: null };
+    this.globals = {
+      model,
+      bgMusic: null,
+      fireGun: null,
+      playerName: "",
+      score: 0,
+    };
     this.scene.add("Boot", BootScene);
     this.scene.add("Preloader", PreloaderScene);
     this.scene.add("Title", TitleScene);
@@ -23,6 +30,7 @@ class Game extends Phaser.Game {
     this.scene.add("Options", OptionsScene);
     this.scene.add("Credits", CreditsScene);
     this.scene.add("Game", GameScene);
+    this.scene.add("PlayerInput", PlayerInputScene);
     this.scene.start("Boot");
   }
 }

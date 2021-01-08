@@ -17,7 +17,7 @@ export default class TitleScene extends Phaser.Scene {
       "blueButton1",
       "blueButton2",
       "Play",
-      "Game"
+      "PlayerInput"
     );
 
     //High Scores

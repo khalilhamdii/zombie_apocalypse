@@ -45,6 +45,7 @@ export default class GameScene extends Phaser.Scene {
     this.scoreText.setText("Zombie Killed : " + this.score);
     this.zombieText.setText("Zombie remaining : " + this.zombieRemaining);
     if (this.zombieRemaining == 0) {
+      this.zombieSounds.stop();
       this.spawnZombies();
       this.waveText.setText("Wave : " + this.wave);
     }
@@ -56,6 +57,7 @@ export default class GameScene extends Phaser.Scene {
     player.setTint(0xff0000);
     this.heroDeath.play();
     this.zombieSounds.stop();
+    this.bgMusic.stop();
     this.sys.game.globals.bgMusic.stop();
     this.time.addEvent({
       delay: 500,
@@ -91,6 +93,7 @@ export default class GameScene extends Phaser.Scene {
         delay: 5000,
         callback: () => {
           this.infoText.depth = -1;
+          this.zombieSounds.play();
           for (var i = 0; i < this.zombieNumber; i++) {
             var tmp = true;
             while (tmp) {
@@ -140,7 +143,8 @@ export default class GameScene extends Phaser.Scene {
       loop: true,
     });
     this.heroDeath = this.sound.add("heroDeath");
-    this.zombieSounds.play();
+    this.bgMusic = this.sound.add("bgMusic", { volume: 0.5, loop: true });
+    this.bgMusic.play();
     // create the map
     var map = this.make.tilemap({ key: "map" });
 

@@ -8,6 +8,8 @@ export default class GameOverScene extends Phaser.Scene {
   }
 
   create() {
+    this.gameOverMusic = this.sound.add("gameOverMusic");
+    this.gameOverMusic.play();
     this.add.text(
       config.width / 2 - 200,
       config.height / 2 - 100,

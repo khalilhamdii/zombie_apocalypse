@@ -38,6 +38,7 @@ export default class GameScene extends Phaser.Scene {
   }
 
   killZombie(bullet, zombie) {
+    this.killedZombie.play();
     bullet.destroy(true, true);
     zombie.setTint(0xff0000);
     this.time.addEvent({
@@ -61,6 +62,9 @@ export default class GameScene extends Phaser.Scene {
     this.physics.pause();
 
     player.setTint(0xff0000);
+    this.heroDeath.play();
+    this.zombieSounds.stop();
+    this.sys.game.globals.bgMusic.stop();
     this.time.addEvent({
       delay: 500,
       callback: () => {
@@ -108,7 +112,17 @@ export default class GameScene extends Phaser.Scene {
     this.speed = 5;
     this.cameras.main.setZoom(2);
     this.gun = 0;
-    this.fireGun = this.sound.add("fireGun");
+    this.fireGun = this.sound.add("fireGun", {
+      volume: 0.5,
+      loop: false,
+    });
+    this.killedZombie = this.sound.add("killedZombie");
+    this.zombieSounds = this.sound.add("zombieSounds", {
+      volume: 0.2,
+      loop: true,
+    });
+    this.heroDeath = this.sound.add("heroDeath");
+    this.zombieSounds.play();
     // create the map
     var map = this.make.tilemap({ key: "map" });
 

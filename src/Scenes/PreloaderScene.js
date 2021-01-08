@@ -17,7 +17,11 @@ export default class PreloaderScene extends Phaser.Scene {
     this.load.image("box", "src/assets/ui/grey_box.png");
     this.load.image("checkedBox", "src/assets/ui/blue_boxCheckmark.png");
     this.load.audio("bgMusic", ["src/assets/soundtrack.ogg"]);
-    this.load.audio("fireGun", ["src/assets/Shoot_01.mp3"]);
+    this.load.audio("fireGun", ["src/assets/Weapon Blow.wav"]);
+    this.load.audio("killedZombie", ["src/assets/Zombie_dead.wav"]);
+    this.load.audio("zombieSounds", ["src/assets/zombie_sounds.mp3"]);
+    this.load.audio("heroDeath", ["src/assets/Hero_Death_00.mp3"]);
+    this.load.audio("gameOverMusic", ["src/assets/GAMEOVER.wav"]);
     // map tiles
     this.load.image("tiles", "src/assets/map/map_min.png");
 
@@ -53,7 +57,7 @@ export default class PreloaderScene extends Phaser.Scene {
     var height = this.cameras.main.height;
     var loadingText = this.make.text({
       x: width / 2,
-      y: height / 2 - 50,
+      y: height / 2 + 50,
       text: "Loading...",
       style: {
         font: "20px monospace",
@@ -75,7 +79,7 @@ export default class PreloaderScene extends Phaser.Scene {
 
     var assetText = this.make.text({
       x: width / 2,
-      y: height / 2 + 50,
+      y: height / 2 + 150,
       text: "",
       style: {
         font: "18px monospace",

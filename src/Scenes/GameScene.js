@@ -30,9 +30,8 @@ export default class GameScene extends Phaser.Scene {
       this.input.activePointer.worldY
     );
 
-    var speed = 200;
-    var vx = Math.cos(PointerAngle) * speed;
-    var vy = Math.sin(PointerAngle) * speed;
+    var vx = Math.cos(PointerAngle) * this.bulletSpeed;
+    var vy = Math.sin(PointerAngle) * this.bulletSpeed;
     bullet.body.setVelocity(vx, vy);
     this.bullets.add(bullet);
   }
@@ -40,14 +39,7 @@ export default class GameScene extends Phaser.Scene {
   killZombie(bullet, zombie) {
     this.killedZombie.play();
     bullet.destroy(true, true);
-    zombie.setTint(0xff0000);
-    this.time.addEvent({
-      delay: 100,
-      callback: () => {
-        zombie.destroy(true, true);
-      },
-      loop: false,
-    });
+    zombie.destroy(true, true);
     this.score += 1;
     this.zombieRemaining -= 1;
     this.scoreText.setText("Zombie Killed : " + this.score);
@@ -82,38 +74,64 @@ export default class GameScene extends Phaser.Scene {
     if (this.zombieRemaining == 0) {
       this.wave += 1;
       this.zombieNumber += 50;
+      this.bulletSpeed += 100;
       this.zombieRemaining = this.zombieNumber;
-      this.speed += 5;
-      for (var i = 0; i < this.zombieNumber; i++) {
-        var tmp = true;
-        while (tmp) {
-          tmp = false;
-          var x = Phaser.Math.RND.between(0, this.physics.world.bounds.width);
-          var y = Phaser.Math.RND.between(0, this.physics.world.bounds.height);
-          var dx = this.player.x - x;
-          var dy = this.player.y - y;
-          if (dx > 100 || dy > 100 || dx < -100 || dy < -100) {
-            let zombie = this.physics.add.sprite(x, y, "zombie", 1);
-            this.zombies.add(zombie);
-            tmp = false;
-          } else {
-            tmp = true;
-          }
+      this.zombieSpeed += 5;
+      this.infoText = this.add.text(
+        16,
+        16,
+        `Wave ${this.wave} coming in 5 seconds! \n         GET READY `,
+        {
+          fontSize: "24px",
+          fill: "#fff",
         }
-      }
+      );
+      this.infoText.depth = 10;
+      this.time.addEvent({
+        delay: 5000,
+        callback: () => {
+          this.infoText.depth = -1;
+          for (var i = 0; i < this.zombieNumber; i++) {
+            var tmp = true;
+            while (tmp) {
+              tmp = false;
+              var x = Phaser.Math.RND.between(
+                0,
+                this.physics.world.bounds.width
+              );
+              var y = Phaser.Math.RND.between(
+                0,
+                this.physics.world.bounds.height
+              );
+              var dx = this.player.x - x;
+              var dy = this.player.y - y;
+              if (dx > 200 || dy > 200 || dx < -200 || dy < -200) {
+                let zombie = this.physics.add.sprite(x, y, "zombie", 1);
+                this.zombies.add(zombie);
+                tmp = false;
+              } else {
+                tmp = true;
+              }
+            }
+          }
+        },
+        loop: false,
+      });
     }
   }
 
   create() {
+    this.infoText;
     this.score = 0;
     this.wave = 0;
     this.zombieNumber = 0;
     this.zombieRemaining = 0;
-    this.speed = 5;
+    this.zombieSpeed = 5;
+    this.bulletSpeed = 100;
     this.cameras.main.setZoom(2);
     this.gun = 0;
     this.fireGun = this.sound.add("fireGun", {
-      volume: 0.5,
+      volume: 0.2,
       loop: false,
     });
     this.killedZombie = this.sound.add("killedZombie");
@@ -295,14 +313,18 @@ export default class GameScene extends Phaser.Scene {
     this.waveText.x = 16 + this.cameras.main.worldView.left;
     this.waveText.y = 48 + this.cameras.main.worldView.top;
     this.waveText.setScale(0.5);
+    this.infoText.x = 100 + this.cameras.main.worldView.left;
+    this.infoText.y = 100 + this.cameras.main.worldView.top;
+    this.infoText.setScale(0.5);
+
     this.zombies.getChildren().forEach(function (zombie) {
       zombie.setScale(0.5);
       zombie.body.collideWorldBounds = true;
       var dx = this.player.x - zombie.x;
       var dy = this.player.y - zombie.y;
       var angle = Math.atan2(dy, dx);
-      var vx = Math.cos(angle) * this.speed;
-      var vy = Math.sin(angle) * this.speed;
+      var vx = Math.cos(angle) * this.zombieSpeed;
+      var vy = Math.sin(angle) * this.zombieSpeed;
       zombie.body.setVelocity(vx, vy);
 
       if (vy < 0 && dx < 50 && dx > -50) {

@@ -12,7 +12,7 @@ export default class GameOverScene extends Phaser.Scene {
     this.gameOverMusic.play();
     this.add.text(
       config.width / 2 - 200,
-      config.height / 2 - 100,
+      config.height / 2 - 200,
       "GAME OVER",
       {
         fontSize: "75px",
@@ -23,11 +23,21 @@ export default class GameOverScene extends Phaser.Scene {
     this.gameButton = new Button(
       this,
       config.width / 2,
-      config.height / 2 + 100,
+      config.height / 2,
       "blueButton1",
       "blueButton2",
       "Try again!",
       "Game"
+    );
+
+    this.titleButton = new Button(
+      this,
+      config.width / 2,
+      config.height / 2 + 100,
+      "blueButton1",
+      "blueButton2",
+      "Main menu",
+      "Title"
     );
   }
 

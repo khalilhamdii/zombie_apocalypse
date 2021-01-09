@@ -1,6 +1,7 @@
 import "phaser";
 import config from "../Config/config";
 import Button from "../Objects/Button";
+import HighScoreApi from "../Objects/HighScoreApi";
 
 export default class GameOverScene extends Phaser.Scene {
   constructor() {
@@ -10,8 +11,9 @@ export default class GameOverScene extends Phaser.Scene {
   create() {
     this.gameOverMusic = this.sound.add("gameOverMusic");
     this.gameOverMusic.play();
-
+    this.playerName = this.sys.game.globals.playerName;
     this.score = this.sys.game.globals.score;
+    HighScoreApi.addNewScore(this.playerName, this.score);
     this.add.text(
       config.width / 2 - 200,
       config.height / 2 - 200,

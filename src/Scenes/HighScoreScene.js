@@ -1,7 +1,7 @@
 import "phaser";
 import Button from "../Objects/Button";
 import config from "../Config/config";
-import HighScore from "../Objects/highScore";
+import HighScoreApi from "../Objects/HighScoreApi";
 
 export default class HighScoreScene extends Phaser.Scene {
   constructor() {
@@ -12,7 +12,7 @@ export default class HighScoreScene extends Phaser.Scene {
     this.text = this.add.text(config.width / 2 - 50, 50, "Top 5", {
       fontSize: 40,
     });
-    HighScore.getListOfScores().then((topFiveScores) => {
+    HighScoreApi.getListOfScores().then((topFiveScores) => {
       let nbr = 1;
       let margin = 150;
       topFiveScores.forEach((element) => {

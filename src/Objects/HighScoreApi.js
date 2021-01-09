@@ -1,4 +1,4 @@
-const HighScore = (() => {
+const HighScoreApi = (() => {
   const addNewScore = (name, score) => {
     let _score = {
       user: `${name}`,
@@ -41,4 +41,4 @@ const HighScore = (() => {
   return { addNewScore, getListOfScores };
 })();
 
-export default HighScore;
+export default HighScoreApi;

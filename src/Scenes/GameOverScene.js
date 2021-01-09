@@ -10,12 +10,24 @@ export default class GameOverScene extends Phaser.Scene {
   create() {
     this.gameOverMusic = this.sound.add("gameOverMusic");
     this.gameOverMusic.play();
+
+    this.score = this.sys.game.globals.score;
     this.add.text(
       config.width / 2 - 200,
       config.height / 2 - 200,
       "GAME OVER",
       {
         fontSize: "75px",
+        fill: "#ff0000",
+      }
+    );
+
+    this.add.text(
+      config.width / 2 - 200 - 25,
+      config.height / 2 - 100,
+      "Your score is " + this.score,
+      {
+        fontSize: "50px",
         fill: "#ffffff",
       }
     );

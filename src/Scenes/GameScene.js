@@ -53,7 +53,7 @@ export default class GameScene extends Phaser.Scene {
 
   onTouchEnemy(player, zombie) {
     this.physics.pause();
-
+    this.sys.game.globals.score = this.score;
     player.setTint(0xff0000);
     this.heroDeath.play();
     this.zombieSounds.stop();

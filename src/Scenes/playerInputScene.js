@@ -36,13 +36,13 @@ export default class PlayerInputScene extends Phaser.Scene {
       config.width / 2 + 100,
       500,
       "button",
-      "background-color: #19d598; width: 120px; height: 50px;border:none;border-radius: 10px",
-      "Start"
+      "color:white;font-size:24px;background-color: #19d598; width: 220px; height: 50px;border:none;border-radius: 10px",
+      "Start the game"
     );
 
-    const submitBtn = document.querySelector("button");
+    const addName = document.querySelector("button");
 
-    submitBtn.onclick = () => {
+    addName.onclick = () => {
       const name = document.querySelector("input").value;
       if (name.length < 3) {
         this.add.text(

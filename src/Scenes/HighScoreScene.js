@@ -16,8 +16,6 @@ export default class HighScoreScene extends Phaser.Scene {
       let nbr = 1;
       let margin = 150;
       topFiveScores.forEach((element) => {
-        console.log(element);
-
         this.add.text(config.width / 2 - 100, margin + 5, `${nbr} - `);
         this.add.text(
           config.width / 2 - 50,

@@ -1,4 +1,20 @@
 import Phaser from 'phaser';
+import blueButton1 from '../assets/ui/blue_button02.png';
+import blueButton2 from '../assets/ui/blue_button03.png';
+import phaserLogo from '../assets/logo.png';
+import box from '../assets/ui/grey_box.png';
+import checkedBox from '../assets/ui/blue_boxCheckmark.png';
+import bgMusic from '../assets/soundtrack.ogg';
+import fireGun from '../assets/Weapon Blow.wav';
+import killedZombie from '../assets/Zombie_dead.wav';
+import zombieSounds from '../assets/zombie_sounds.mp3';
+import heroDeath from '../assets/Hero_Death_00.mp3';
+import gameOverMusic from '../assets/GAMEOVER.wav';
+import tiles from '../assets/map/map_min.png';
+import map from '../assets/map/map.json';
+import player from '../assets/RPG_assets.png';
+import zombie from '../assets/Zombie_Spritesheet.png';
+import bullet from '../assets/bullet.png';
 
 export default class PreloaderScene extends Phaser.Scene {
   constructor() {
@@ -11,38 +27,38 @@ export default class PreloaderScene extends Phaser.Scene {
 
   preload() {
     // load assets needed in our game
-    this.load.image('blueButton1', 'src/assets/ui/blue_button02.png');
-    this.load.image('blueButton2', 'src/assets/ui/blue_button03.png');
-    this.load.image('phaserLogo', 'src/assets/logo.png');
-    this.load.image('box', 'src/assets/ui/grey_box.png');
-    this.load.image('checkedBox', 'src/assets/ui/blue_boxCheckmark.png');
-    this.load.audio('bgMusic', ['src/assets/soundtrack.ogg']);
-    this.load.audio('fireGun', ['src/assets/Weapon Blow.wav']);
-    this.load.audio('killedZombie', ['src/assets/Zombie_dead.wav']);
-    this.load.audio('zombieSounds', ['src/assets/zombie_sounds.mp3']);
-    this.load.audio('heroDeath', ['src/assets/Hero_Death_00.mp3']);
-    this.load.audio('gameOverMusic', ['src/assets/GAMEOVER.wav']);
+    this.load.image('blueButton1', blueButton1);
+    this.load.image('blueButton2', blueButton2);
+    this.load.image('phaserLogo', phaserLogo);
+    this.load.image('box', box);
+    this.load.image('checkedBox', checkedBox);
+    this.load.audio('bgMusic', [bgMusic]);
+    this.load.audio('fireGun', [fireGun]);
+    this.load.audio('killedZombie', [killedZombie]);
+    this.load.audio('zombieSounds', [zombieSounds]);
+    this.load.audio('heroDeath', [heroDeath]);
+    this.load.audio('gameOverMusic', [gameOverMusic]);
     // map tiles
-    this.load.image('tiles', 'src/assets/map/map_min.png');
+    this.load.image('tiles', tiles);
 
     // map in json format
-    this.load.tilemapTiledJSON('map', 'src/assets/map/map.json');
+    this.load.tilemapTiledJSON('map', map);
 
     // character spritesheet
-    this.load.spritesheet('player', 'src/assets/RPG_assets.png', {
+    this.load.spritesheet('player', player, {
       frameWidth: 16,
       frameHeight: 16,
     });
 
     // zombie spritesheet
-    this.load.spritesheet('zombie', 'src/assets/Zombie_Spritesheet.png', {
+    this.load.spritesheet('zombie', zombie, {
       frameWidth: 30,
       frameHeight: 35,
     });
 
     // load bullet
 
-    this.load.image('bullet', 'src/assets/bullet.png');
+    this.load.image('bullet', bullet);
 
     // add logo image
     this.add.image(400, 200, 'logo');

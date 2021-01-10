@@ -41,7 +41,7 @@ To move the player:
 
 ## Live Demo
 
-[Live demo](https://khalilhamdii.github.io/MyTodos/)
+[Live demo](https://khalilhamdii.github.io/zombie_apocalypse/)
 
 ## Screenshots
 

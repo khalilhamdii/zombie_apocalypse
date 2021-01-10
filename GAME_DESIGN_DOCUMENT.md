@@ -25,6 +25,14 @@ Here below an image of the type of zombies that will attack the player. The zomb
 
 ![collider](./Screenshots/Zombie_Spritesheet.png)
 
+## Score
+
+Every zombie killed in the game will increase the score by 1.
+
+## Game Over
+
+The game will end when a zombie touchs the player. The score reached by player will be shown and saved into an external API.
+
 # Developer's Notes
 
 This project was developed in these stages:

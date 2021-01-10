@@ -37,7 +37,7 @@ To move the player:
   To shoot at the zombie :
 
 - Point the mouse at the direction of the zombies
-- PRESS "LEFT MOUSE KEY" to shoot
+- PRESS "MOUSE LEFT KEY" to shoot
 
 ## Live Demo
 

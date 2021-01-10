@@ -1,83 +1,88 @@
-import "babel-polyfill";
-import HighScoreApi from "../Objects/HighScoreApi";
+/* eslint-disable consistent-return */
+import 'babel-polyfill';
+import HighScoreApi from '../Objects/HighScoreApi';
 
-test("Get object from the API", () => {
-  HighScoreApi.getListOfScores().then((scores) => {
-    expect(typeof scores).toBe("object");
+test('Post a valid score of 5000', () => {
+  try {
+    HighScoreApi.addNewScore('Test_1', 500).then((response) => {
+      expect(response.result).toBe('Leaderboard score created correctly.');
+    });
+  } catch (error) {
+    return error;
+  }
+});
+
+test('Post invalid username', () => {
+  HighScoreApi.addNewScore('', 10).then((response) => {
+    expect(response.result).toBe(undefined);
   });
 });
 
-test("Get the Top score username", () => {
+test('Get object from the API', () => {
+  HighScoreApi.getListOfScores().then((scores) => {
+    expect(typeof scores).toBe('object');
+  });
+});
+
+test('Get the Top score username', () => {
   HighScoreApi.getListOfScores().then((scores) => {
     const username = scores[0].name;
-    expect(username).toBe("Topscore");
+    expect(username).toBe('Topscore');
   });
 });
 
-test("Get the Top score recorded", () => {
+test('Get the Top score recorded', () => {
   HighScoreApi.getListOfScores().then((scores) => {
     const topScore = scores[0].score;
     expect(topScore).toBe(100000);
   });
 });
 
-test("Post a valid score of 500", () => {
-  HighScoreApi.addNewScore("Test_1", 500).then((response) => {
-    expect(response.result).toBe("Leaderboard score created correctly.");
-  });
-});
-
-test("Post invalid username", () => {
-  HighScoreApi.addNewScore("", 10).then((response) => {
-    expect(response.result).toBe(undefined);
-  });
-});
-
-test("Return top five object sorted by score value", () => {
+test('Return top five object sorted by score value', () => {
   const objects = [
-    { user: "name1", score: 1 },
-    { user: "name2", score: 2 },
-    { user: "name3", score: 3 },
-    { user: "name4", score: 4 },
-    { user: "name5", score: 5 },
-    { user: "name6", score: 6 },
-    { user: "name7", score: 7 },
-    { user: "name8", score: 8 },
-    { user: "name9", score: 9 },
-    { user: "name10", score: 10 },
+    { user: 'name1', score: 1 },
+    { user: 'name2', score: 2 },
+    { user: 'name3', score: 3 },
+    { user: 'name4', score: 4 },
+    { user: 'name5', score: 5 },
+    { user: 'name6', score: 6 },
+    { user: 'name7', score: 7 },
+    { user: 'name8', score: 8 },
+    { user: 'name9', score: 9 },
+    { user: 'name10', score: 10 },
   ];
 
   const expected = [
-    { name: "name10", score: 10 },
-    { name: "name9", score: 9 },
-    { name: "name8", score: 8 },
-    { name: "name7", score: 7 },
-    { name: "name6", score: 6 },
+    { name: 'name10', score: 10 },
+    { name: 'name9', score: 9 },
+    { name: 'name8', score: 8 },
+    { name: 'name7', score: 7 },
+    { name: 'name6', score: 6 },
   ];
 
   expect(HighScoreApi.getTopFive(objects)).toEqual(expected);
 });
 
-test("Not to return the scores unsorted", () => {
+test('Not to return the scores unsorted', () => {
   const objects = [
-    { user: "name1", score: 1 },
-    { user: "name2", score: 2 },
-    { user: "name3", score: 3 },
-    { user: "name4", score: 4 },
-    { user: "name5", score: 5 },
-    { user: "name6", score: 6 },
-    { user: "name7", score: 7 },
-    { user: "name8", score: 8 },
-    { user: "name9", score: 9 },
-    { user: "name10", score: 10 },
+    { user: 'name1', score: 1 },
+    { user: 'name2', score: 2 },
+    { user: 'name3', score: 3 },
+    { user: 'name4', score: 4 },
+    { user: 'name5', score: 5 },
+    { user: 'name6', score: 6 },
+    { user: 'name7', score: 7 },
+    { user: 'name8', score: 8 },
+    { user: 'name9', score: 9 },
+    { user: 'name10', score: 10 },
   ];
 
   const expected = [
-    { name: "name6", score: 6 },
-    { name: "name7", score: 7 },
-    { name: "name8", score: 8 },
-    { name: "name9", score: 9 },
-    { name: "name10", score: 10 },
+    { name: 'name6', score: 6 },
+    { name: 'name7', score: 7 },
+    { name: 'name8', score: 8 },
+    { name: 'name9', score: 9 },
+    { name: 'name10', score: 10 },
   ];
 
   expect(HighScoreApi.getTopFive(objects)).not.toEqual(expected);

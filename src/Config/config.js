@@ -1,8 +1,8 @@
-import "phaser";
+import Phaser from 'phaser';
 
 export default {
   type: Phaser.AUTO,
-  parent: "phaser-game",
+  parent: 'phaser-game',
   mode: Phaser.Scale.FIT,
   autoCenter: Phaser.Scale.CENTER_BOTH,
   width: 800,
@@ -13,7 +13,7 @@ export default {
     createContainer: true,
   },
   physics: {
-    default: "arcade",
+    default: 'arcade',
     arcade: {
       gravity: { y: 0 },
       debug: false, // set to true to view zones

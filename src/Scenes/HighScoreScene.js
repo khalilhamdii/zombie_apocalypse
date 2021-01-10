@@ -1,15 +1,15 @@
-import "phaser";
-import Button from "../Objects/Button";
-import config from "../Config/config";
-import HighScoreApi from "../Objects/HighScoreApi";
+import Phaser from 'phaser';
+import Button from '../Objects/Button';
+import config from '../Config/config';
+import HighScoreApi from '../Objects/HighScoreApi';
 
 export default class HighScoreScene extends Phaser.Scene {
   constructor() {
-    super("HighScore");
+    super('HighScore');
   }
 
   create() {
-    this.text = this.add.text(config.width / 2 - 50, 50, "Top 5", {
+    this.text = this.add.text(config.width / 2 - 50, 50, 'Top 5', {
       fontSize: 40,
     });
     HighScoreApi.getListOfScores().then((topFiveScores) => {
@@ -20,10 +20,10 @@ export default class HighScoreScene extends Phaser.Scene {
         this.add.text(
           config.width / 2 - 50,
           margin,
-          element.name + " : " + element.score,
+          `${element.name} : ${element.score}`,
           {
             fontSize: 24,
-          }
+          },
         );
         nbr += 1;
         margin += 50;
@@ -34,10 +34,10 @@ export default class HighScoreScene extends Phaser.Scene {
       this,
       config.width / 2,
       500,
-      "blueButton1",
-      "blueButton2",
-      "Menu",
-      "Title"
+      'blueButton1',
+      'blueButton2',
+      'Menu',
+      'Title',
     );
   }
 }

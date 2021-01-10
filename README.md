@@ -12,15 +12,32 @@
 
 ## Library Directory 📙
 
-| Contents                    |
-| --------------------------- |
-| [Live Demo](#live-demo)     |
-| [Screenshots](#screenshots) |
-| [Built With](#built-with-🛠) |
-| [Setup](#setup-⏳)          |
-| [Testing](#testing-⚙️)      |
-| [Authors](#authors)         |
-| [License](#license)         |
+| Contents                      |
+| ----------------------------- |
+| [Instructions](#instructions) |
+| [Live Demo](#live-demo)       |
+| [Screenshots](#screenshots)   |
+| [Built With](#built-with-🛠)   |
+| [Setup](#setup-⏳)            |
+| [Testing](#testing-⚙️)        |
+| [Authors](#authors)           |
+| [License](#license)           |
+
+## Instructions
+
+You can control the player using a mouse and a keyboard. You can move around the map in all directions, holding a machine gun and shooting at the zombies.
+
+To move the player:
+
+- PRESS "Z" : To move UP
+- PRESS "S" : To move DOWN
+- PRESS "D" : To move RIGHT
+- PRESS "Q" : To move LEFT
+
+  To shoot at the zombie :
+
+- Point the mouse at the direction of the zombies
+- PRESS "LEFT MOUSE KEY" to shoot
 
 ## Live Demo
 
@@ -41,6 +58,7 @@
 ```
 - Javascript
 - Phaser 3 Game Framework
+- Tiled Map Editor
 - HTML
 - CSS
 - VS Code

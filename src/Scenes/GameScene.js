@@ -344,25 +344,21 @@ export default class GameScene extends Phaser.Scene {
 
     this.player.body.setVelocity(0);
 
-    // Shoot bullets
     if (this.input.activePointer.isDown && this.gun === 0) {
       this.fireBullet();
     }
-    // Horizontal movement
     if (this.leftBtn.isDown) {
       this.player.body.setVelocityX(-80);
     } else if (this.rightBtn.isDown) {
       this.player.body.setVelocityX(80);
     }
 
-    // Vertical movement
     if (this.upBtn.isDown) {
       this.player.body.setVelocityY(-80);
     } else if (this.downBtn.isDown) {
       this.player.body.setVelocityY(80);
     }
 
-    // Update the animation last and give left/right animations precedence over up/down animations
     if (this.leftBtn.isDown) {
       this.player.anims.play("left", true);
       this.player.flipX = true;

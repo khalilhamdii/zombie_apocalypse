@@ -38,7 +38,7 @@ const HighScoreApi = (() => {
       return error;
     }
   };
-  return { addNewScore, getListOfScores };
+  return { addNewScore, getTopFive, getListOfScores };
 })();
 
 export default HighScoreApi;

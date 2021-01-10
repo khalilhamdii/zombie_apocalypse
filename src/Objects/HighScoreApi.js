@@ -1,3 +1,5 @@
+import 'isomorphic-fetch';
+
 const HighScoreApi = (() => {
   const addNewScore = async (name, score) => {
     const scoreObj = {

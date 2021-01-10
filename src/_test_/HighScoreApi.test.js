@@ -2,14 +2,10 @@
 import 'babel-polyfill';
 import HighScoreApi from '../Objects/HighScoreApi';
 
-test('Post a valid score of 5000', () => {
-  try {
-    HighScoreApi.addNewScore('Test_1', 500).then((response) => {
-      expect(response.result).toBe('Leaderboard score created correctly.');
-    });
-  } catch (error) {
-    return error;
-  }
+test('Post a valid score of 500', () => {
+  HighScoreApi.addNewScore('Test_1', 500).then((response) => {
+    expect(response.result).toEqual('Leaderboard score created correctly.');
+  });
 });
 
 test('Post invalid username', () => {
@@ -27,14 +23,14 @@ test('Get object from the API', () => {
 test('Get the Top score username', () => {
   HighScoreApi.getListOfScores().then((scores) => {
     const username = scores[0].name;
-    expect(username).toBe('Topscore');
+    expect(username).toBe('Test_1');
   });
 });
 
 test('Get the Top score recorded', () => {
   HighScoreApi.getListOfScores().then((scores) => {
     const topScore = scores[0].score;
-    expect(topScore).toBe(100000);
+    expect(topScore).toBe(500);
   });
 });
 

@@ -77,7 +77,7 @@ To move the player:
 
 ## Testing ⚙️
 
-> We have used [rspec](https://jestjs.io/) testing tool to test functions by creating several test cases. Please follow below steps to run Jest testing tool:
+> We have used [Jest](https://jestjs.io/) testing tool to test functions by creating several test cases. Please follow below steps to run Jest testing tool:
 
 1. - [ ] Open `Terminal` again
 2. - [ ] Run `cd zombie_apocalypse` to enter directory

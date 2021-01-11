@@ -1,15 +1,15 @@
-import PreloaderScene from "../Scenes/PreloaderScene";
+import PreloaderScene from '../Scenes/PreloaderScene';
 
 const scene = new PreloaderScene();
 
-test("PreloaderScene is of type function", () => {
-  expect(typeof PreloaderScene).toBe("function");
+test('PreloaderScene is of type function', () => {
+  expect(typeof PreloaderScene).toBe('function');
 });
 
-test("PreloaderScene key name is Preloader", () => {
-  expect(scene.sys.config).toBe("Preloader");
+test('PreloaderScene key name is Preloader', () => {
+  expect(scene.sys.config).toBe('Preloader');
 });
 
-test("PreloaderScene scene is not undefined", () => {
+test('PreloaderScene scene is not undefined', () => {
   expect(scene.sys.config).not.toBe(undefined);
 });

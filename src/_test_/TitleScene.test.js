@@ -1,15 +1,15 @@
-import TitleScene from "../Scenes/TitleScene";
+import TitleScene from '../Scenes/TitleScene';
 
 const scene = new TitleScene();
 
-test("TitleScene is of type function", () => {
-  expect(typeof TitleScene).toBe("function");
+test('TitleScene is of type function', () => {
+  expect(typeof TitleScene).toBe('function');
 });
 
-test("TitleScene key name is Title", () => {
-  expect(scene.sys.config).toBe("Title");
+test('TitleScene key name is Title', () => {
+  expect(scene.sys.config).toBe('Title');
 });
 
-test("TitleScene scene is not undefined", () => {
+test('TitleScene scene is not undefined', () => {
   expect(scene.sys.config).not.toBe(undefined);
 });

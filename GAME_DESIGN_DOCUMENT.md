@@ -51,8 +51,6 @@ This project was built using [Phaser 3](https://phaser.io/phaser3), [Webpack](ht
 
 # Acknowledgements
 
-- This project is the Javascript Capstone project and is part of [Microverse](https://www.microverse.org/) curriculum, which am proud to be part of. At Microverse, I learned how to code and build amazing projects. Also, Microverse provided me with an [API](https://us-central1-js-capstone-backend.cloudfunctions.net/api/) to save the player's scores.
-
 - Thanks to [OpenGameArt](https://opengameart.org/) for providing the free assets I used in this game.
 
 - Thanks to [Altegore](https://www.deviantart.com/altegore) from DevianArt the amazing map I used in this game!

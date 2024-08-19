@@ -1,7 +1,5 @@
 # Zombie Apocalypse Game
 
-![Microverse](https://img.shields.io/badge/-Microverse-6F23FF?style=for-the-badge)
-
 ## Description
 
 > Zombie Apocalypse is an RPG game that you can play directly from your browser without any prior installation. It was built using the Phaser 3 Game Framework & Javascript and compiled with Webpack. Please read the [Game Design Document](#game-design-document) for further information about the story and the gameplay.
